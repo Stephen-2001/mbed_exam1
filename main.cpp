@@ -24,6 +24,7 @@ int main(){
     int sample = 20;
     int index = 0;
     int count = 0;
+
     while (1) {
         uLCD.locate(1, 2);  
         uLCD.printf("%4f %4f\n", display_slew_rate, slew_rate);
@@ -61,7 +62,8 @@ int main(){
         }
         if (confirm) {
             slew_rate = display_slew_rate;
-            sample = 100 / int((T/1000.0)) * 480;
+            piece = 0;
+            sample = int(100.0 / (T/1000.0) * 480.0);
             uLCD.locate(1, 2);  
             uLCD.printf("%4f %4f\n", display_slew_rate, slew_rate);
             for(int i=0; i<480; i++){
