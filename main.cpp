@@ -19,6 +19,9 @@ int main(){
 
     float display_slew_rate = 0.125;
     float slew_rate = 0.125;
+    float T = 240.0;
+    float piece = 0.0;
+
     while (1) {
         uLCD.locate(1, 2);  
         uLCD.printf("%4f %4f\n", display_slew_rate, slew_rate);
@@ -59,6 +62,32 @@ int main(){
             uLCD.locate(1, 2);  
             uLCD.printf("%4f %4f\n", display_slew_rate, slew_rate);
         }
+
+        if (piece >= T) {
+            piece = 0;
+        }
+        else if (piece <= 80) {
+            if (piece <= 80*slew_rate) {
+                aout = piece / (80*slew_rate);
+            }
+            else {
+                aout = 1.0;
+            }
+        }
+        else if (piece > 80 && piece <= 160) {
+            aout = 1.0;
+        }
+        else if (piece > 160 && piece <= 240) {
+            if (piece >= (240-80*slew_rate)) {
+                aout = 1 - float(piece - 240 + 80*slew_rate) / float(80*slew_rate);
+            }
+            else {
+                aout = 1.0;
+            }
+        }
+        aout = aout * 3.0 / 3.3;
+        piece += T / 240.0;
+       // wait_us(T*10-30);
     }
     // int display_frequency = 30;
 	// int frequency = 30;
